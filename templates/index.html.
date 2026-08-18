@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Calculator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="calculator-container">
+        <h2>Flask Calculator</h2>
+        
+        <form method="POST">
+            <div class="input-group">
+                <label for="num1">First Number:</label>
+                <input type="text" id="num1" name="num1" value="{{ request.form.get('num1', '') }}" placeholder="Enter number">
+            </div>
+
+            <div class="input-group">
+                <label for="operation">Operation:</label>
+                <select id="operation" name="operation">
+                    <option value="add" {% if request.form.get('operation') == 'add' %}selected{% endif %}>Addition (+)</option>
+                    <option value="subtract" {% if request.form.get('operation') == 'subtract' %}selected{% endif %}>Subtraction (-)</option>
+                    <option value="multiply" {% if request.form.get('operation') == 'multiply' %}selected{% endif %}>Multiplication (*)</option>
+                    <option value="divide" {% if request.form.get('operation') == 'divide' %}selected{% endif %}>Division (/)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label for="num2">Second Number:</label>
+                <input type="text" id="num2" name="num2" value="{{ request.form.get('num2', '') }}" placeholder="Enter number">
+            </div>
+
+            <button type="submit" class="btn">Calculate</button>
+            <a href="{{ url_for('calculator') }}" class="btn clear-btn" style="text-align: center; text-decoration: none; display: block;">Clear</a>
+        </form>
+
+        {% if result is not none %}
+            <div class="result-box success">
+                <h3>Result: {{ result }}</h3>
+            </div>
+        {% endif %}
+
+        {% if error %}
+            <div class="result-box error">
+                <h3>Error: {{ error }}</h3>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
